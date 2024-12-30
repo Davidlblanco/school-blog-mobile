@@ -6,7 +6,6 @@ import Header from './components/header/Header';
 
 export default function IsLoggedIn() {
     const { isLoggedIn } = useMainContext();
-    console.log('isLoggedIn', isLoggedIn);
     return (
         <>
             {isLoggedIn ? (
