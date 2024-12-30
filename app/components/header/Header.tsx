@@ -1,32 +1,29 @@
-// import { useMainContext } from '@/contexts/useMainContext';
-// import { View, Text, Button } from 'react-native';
+import { useMainContext } from '@/contexts/useMainContext';
+import { View, Text, Button } from 'react-native';
+import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// export default function Header() {
-//     const { setJwtToken, role } = useMainContext();
+export default function Header() {
+    const { setJwtToken, role, setIsLoggedIn } = useMainContext();
 
-//     const navigate = useNavigate();
+    function handleLogOut() {
+        removeJwtToken();
+        setJwtToken(undefined);
+        setIsLoggedIn(false);
+    }
 
-//     function handleLogOut() {
-//         document.cookie =
-//             'school-blog-jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-//         setJwtToken(undefined);
-//     }
+    async function removeJwtToken() {
+        await AsyncStorage.removeItem('school-blog-jwt');
+    }
+    return (
+        <View>
+            <Text>Blog</Text>
+            <View>
+                {role === 'ADMIN' ? <Link href="/#">Admin</Link> : null}
 
-//     return (
-//         <View>
-//             <Text>Blog</Text>
-//             <View>
-//                 {role === 'ADMIN' ? (
-//                     <Button onPress={() => navigate('/admin/ListUsers')}>
-//                         Admin
-//                     </Button>
-//                 ) : null}
-
-//                 <Button onPress={() => navigate('/myAccount')}>
-//                     My account
-//                 </Button>
-//                 <Button onPress={handleLogOut}>LogOut</Button>
-//             </View>
-//         </View>
-//     );
-// }
+                <Link href="/#">My account</Link>
+                <Button onPress={handleLogOut} title="LogOut" />
+            </View>
+        </View>
+    );
+}
