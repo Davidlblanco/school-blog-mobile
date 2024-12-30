@@ -28,6 +28,7 @@ export default function Login() {
             redirect: 'follow',
         });
         const loginRes = await login.json();
+        console.log('loginRes',loginRes)
         if (!login.ok) {
             setErrorMessage(loginRes.message);
         }
@@ -38,7 +39,7 @@ export default function Login() {
         const currentTime = Math.floor(Date.now() / 1000);
         const timeUntilExpiration = decoded.exp - currentTime;
         //save to local storage
-        saveJwtToken(`school-blog-jwt`)
+        saveJwtToken(accessToken)
     };
 
     async function saveJwtToken(jwt: string) {

@@ -31,9 +31,6 @@ export type MainContextType = {
     role: string;
 };
 
-
-
-
 async function getJwtToken(): Promise<string | null> {
     return await AsyncStorage.getItem('school-blog-jwt');
 }
@@ -59,10 +56,9 @@ const ProvideMainContext = () => {
         return;
     }
     const decoded: JwtPayload = jwtDecode(jwt);
-
+    
     const currentTime = Math.floor(Date.now() / 1000);
     const timeUntilExpiration = decoded.exp - currentTime;
-
     if (timeUntilExpiration > 0) {
         setJwtToken(jwt);
         setIsLoggedIn(true);
@@ -99,14 +95,7 @@ const ProvideMainContext = () => {
     };
 };
 
-// function getJwtCookie(name: string): string | null {
-//     const value = `; ${document.cookie}`;
-//     const parts = value.split(`; ${name}=`);
-//     if (parts.length === 2) {
-//         return parts.pop()?.split(';').shift() || null;
-//     }
-//     return null;
-// }
+
 
 const MainContext = createContext<MainContextType>({} as MainContextType);
 

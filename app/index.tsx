@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import IsLoggedIn from "./IisLoggedIn";
 
 export default function Index() {
+  
   return (
     <View
       style={{
