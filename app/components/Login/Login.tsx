@@ -28,7 +28,7 @@ export default function Login() {
             redirect: 'follow',
         });
         const loginRes = await login.json();
-        console.log('loginRes',loginRes)
+
         if (!login.ok) {
             setErrorMessage(loginRes.message);
         }
@@ -39,7 +39,7 @@ export default function Login() {
         const currentTime = Math.floor(Date.now() / 1000);
         const timeUntilExpiration = decoded.exp - currentTime;
         //save to local storage
-        saveJwtToken(accessToken)
+        saveJwtToken(accessToken);
     };
 
     async function saveJwtToken(jwt: string) {
@@ -47,27 +47,27 @@ export default function Login() {
     }
     return (
         <View>
-               <Input
-                        label="User name"
-                        type="text"
-                        set={setUserName}
-                        value={userName}
-                        required
-                    />
-                    <Input
-                        label="Password"
-                        type="password"
-                        set={setPassword}
-                        value={password}
-                        required
-                    />
-                    <Button 
-                        onPress={handleSubmit}
-                        title="Login"
-                        color="#841584"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
-                     {errorMessage ? <Text>{errorMessage}</Text> : null}
+            <Input
+                label="User name"
+                type="text"
+                set={setUserName}
+                value={userName}
+                required
+            />
+            <Input
+                label="Password"
+                type="password"
+                set={setPassword}
+                value={password}
+                required
+            />
+            <Button
+                onPress={handleSubmit}
+                title="Login"
+                color="#841584"
+                accessibilityLabel="Learn more about this purple button"
+            />
+            {errorMessage ? <Text>{errorMessage}</Text> : null}
         </View>
         // <div className="flex items-center justify-center min-h-screen bg-gray-800">
         //     <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">

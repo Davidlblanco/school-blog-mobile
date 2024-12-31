@@ -19,9 +19,11 @@ export default function Header() {
         <View>
             <Text>Blog</Text>
             <View>
-                {role === 'ADMIN' ? <Link href="/#">Admin</Link> : null}
+                {role === 'ADMIN' ? (
+                    <Link href="/components/ListUsers/ListUsers">Admin</Link>
+                ) : null}
 
-                <Link href="/#">My account</Link>
+                <Link href="/components/MyAccount/MyAccount">My account</Link>
                 <Button onPress={handleLogOut} title="LogOut" />
             </View>
         </View>

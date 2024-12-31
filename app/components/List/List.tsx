@@ -3,15 +3,15 @@ import { Article } from '@/typings/projectTypes';
 import UseDebounce from '@/utils/UseDebounce';
 import { apiUrl } from '@/utils/variables';
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import { FlatList, StyleSheet, StatusBar, Button } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import ListItem from './ListItem';
+import Search from '../Search/Search';
 
 export default function List() {
-    const { jwtToken, search, setSearch, setOpenModalId, role } =
-        useMainContext();
-
+    const { jwtToken, search, setSearch, role } = useMainContext();
+    const router = useRouter();
     const [data, setData] = useState<Article[]>([]);
     const getArticles = async () => {
         const activeFilter = role === 'STUDENT' ? `{"active":true}` : '{}';
@@ -44,13 +44,24 @@ export default function List() {
     useEffect(() => {
         getArticles();
     }, []);
-
+    const debounceSearch = UseDebounce(() => getArticles(), 1000);
+    useEffect(debounceSearch, [search]);
+    const canCreate = role === 'ADMIN' || role === 'TECHER';
     return (
         <SafeAreaProvider>
+            <Search set={setSearch} value={search} />
+            {canCreate && (
+                <Button
+                    onPress={() => router.push('/components/CreateUpdate/0')}
+                    title="CreateArticle"
+                />
+            )}
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={data}
-                    renderItem={({ item }) => <ListItem {...item} />}
+                    renderItem={({ item }) => (
+                        <ListItem article={item} setData={setData} />
+                    )}
                     keyExtractor={(item) => item.id}
                 />
             </SafeAreaView>

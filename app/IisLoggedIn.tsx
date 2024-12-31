@@ -1,4 +1,3 @@
-import ContentHolder from './components/ContentHolder/ContentHolder';
 import Login from './components/Login/Login';
 import { useMainContext } from '../contexts/useMainContext';
 import List from './components/List/List';
