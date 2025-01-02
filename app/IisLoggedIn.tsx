@@ -4,5 +4,5 @@ import List from './components/List/List';
 
 export default function IsLoggedIn() {
     const { isLoggedIn } = useMainContext();
-    return <>{isLoggedIn ? <List /> : <Login />}</>;
+    return isLoggedIn ? <List /> : <Login />;
 }

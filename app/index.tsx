@@ -1,8 +1,5 @@
-import { Text, View } from 'react-native';
-import MainProvider, { useMainContext } from '../contexts/useMainContext';
+import { View } from 'react-native';
 import IsLoggedIn from './IisLoggedIn';
-import { useEffect } from 'react';
-import { useRouter } from 'expo-router';
 
 export default function Index() {
     return (
@@ -13,8 +10,6 @@ export default function Index() {
                 alignItems: 'center',
             }}
         >
-            <Text>Loader</Text>
-
             <IsLoggedIn />
         </View>
     );

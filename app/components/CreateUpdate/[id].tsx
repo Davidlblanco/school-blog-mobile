@@ -6,6 +6,7 @@ import { useMainContext } from '@/contexts/useMainContext';
 import { apiUrl } from '@/utils/variables';
 import { Article } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
+import ToastComponent from '@/utils/Toast';
 
 export default function CreateUpdate() {
     const {
@@ -84,35 +85,38 @@ export default function CreateUpdate() {
     if (role !== 'ADMIN' && role !== 'TEACHER') return <AccessDenied />;
 
     return (
-        <View>
-            <Input
-                type="checkbox"
-                label="Status"
-                value={active}
-                set={setActive}
-            />
-            <Input
-                type="text"
-                label="Title"
-                value={title}
-                set={setTitle}
-                required
-            />
-            <Input
-                type="textarea"
-                label="Content"
-                value={content}
-                set={setContent}
-                required
-            />
-            <Input
-                type="text"
-                label="Image url"
-                value={imageUrl}
-                set={setImageUrl}
-            />
-            <Button onPress={handleSubmit} title="Save" />
-        </View>
+        <>
+            <View>
+                <Input
+                    type="checkbox"
+                    label="Status"
+                    value={active}
+                    set={setActive}
+                />
+                <Input
+                    type="text"
+                    label="Title"
+                    value={title}
+                    set={setTitle}
+                    required
+                />
+                <Input
+                    type="textarea"
+                    label="Content"
+                    value={content}
+                    set={setContent}
+                    required
+                />
+                <Input
+                    type="text"
+                    label="Image url"
+                    value={imageUrl}
+                    set={setImageUrl}
+                />
+                <Button onPress={handleSubmit} title="Save" />
+            </View>
+            <ToastComponent />
+        </>
     );
 }
 // import { useNavigate, useParams } from 'react-router-dom';

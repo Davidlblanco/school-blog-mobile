@@ -1,16 +1,97 @@
-import { Text, View } from 'react-native';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+    FlatList,
+    StyleSheet,
+    StatusBar,
+    Button,
+    Text,
+    View,
+} from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useMainContext } from '@/contexts/useMainContext';
+import { User } from '@/typings/projectTypes';
+import UseDebounce from '@/utils/UseDebounce';
+import { apiUrl } from '@/utils/variables';
+import LustItemUsers from './LustItemUsers';
+import Search from '../Search/Search';
+import Header from '../header/Header';
+import ToastComponent from '@/utils/Toast';
 
-export default class ListUsers extends Component {
-    render() {
-        return (
-            <View>
-                <Text>ListUsers</Text>
-            </View>
+export default function ListUsers() {
+    const { jwtToken, searchUser, setSearchUser, role } = useMainContext();
+    const router = useRouter();
+    const [data, setData] = useState<User[]>([]);
+
+    const getUsers = async () => {
+        const orderByFilter = `&orderBy={"name":"asc"}`;
+        const searchFilter = searchUser
+            ? `&where={
+                "OR":[
+                    {"name":{"contains":"${searchUser}","mode":"insensitive"}},
+                    {"email":{"contains":"${searchUser}","mode":"insensitive"}},
+                    {"userName":{"contains":"${searchUser}","mode":"insensitive"}}
+                ]
+            }`
+            : '';
+        const users = await fetch(
+            `${apiUrl}/users?rows=true${orderByFilter}${searchFilter}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json',
+                },
+            },
         );
-    }
+        if (!users.ok) return;
+        const userList: User[] = await users.json();
+        setData(userList);
+    };
+
+    useEffect(() => {
+        getUsers();
+    }, []);
+
+    const debounceSearch = UseDebounce(() => getUsers(), 1000);
+    useEffect(debounceSearch, [searchUser]);
+
+    const canCreate = role === 'ADMIN';
+
+    return (
+        <>
+            <Header />
+            <SafeAreaProvider>
+                <Search set={setSearchUser} value={searchUser} />
+                {canCreate && (
+                    <Button
+                        onPress={() =>
+                            router.push('/components/CreateUser/[id]')
+                        }
+                        title="Create User"
+                    />
+                )}
+                <SafeAreaView style={styles.container}>
+                    <FlatList
+                        data={data}
+                        renderItem={({ item }) => (
+                            <LustItemUsers user={item} setData={setData} />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
+                </SafeAreaView>
+            </SafeAreaProvider>
+            <ToastComponent />
+        </>
+    );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+    },
+});
 // import { useNavigate } from 'react-router-dom';
 // import { useMainContext } from '../../contexts/useMainContext';
 // import { User } from '../../typings/projectTypes';

@@ -9,6 +9,7 @@ import { useRouter } from 'expo-router';
 import ListItem from './ListItem';
 import Search from '../Search/Search';
 import Header from '../header/Header';
+import ToastComponent from '@/utils/Toast';
 
 export default function List() {
     const { jwtToken, search, setSearch, role } = useMainContext();
@@ -71,6 +72,7 @@ export default function List() {
                     />
                 </SafeAreaView>
             </SafeAreaProvider>
+            <ToastComponent />
         </>
     );
 }
