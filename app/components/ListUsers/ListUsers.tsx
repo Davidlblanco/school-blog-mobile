@@ -65,9 +65,7 @@ export default function ListUsers() {
                 <Search set={setSearchUser} value={searchUser} />
                 {canCreate && (
                     <Button
-                        onPress={() =>
-                            router.push('/components/CreateUser/[id]')
-                        }
+                        onPress={() => router.push('/components/CreateUser/0')}
                         title="Create User"
                     />
                 )}
