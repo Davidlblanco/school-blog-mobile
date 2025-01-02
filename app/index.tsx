@@ -1,26 +1,24 @@
-import { Text, View } from "react-native";
-import MainProvider from "../contexts/useMainContext";
-import Login from "./components/Login/Login";
-import IsLoggedIn from "./IisLoggedIn";
+import { Text, View } from 'react-native';
+import MainProvider, { useMainContext } from '../contexts/useMainContext';
+import IsLoggedIn from './IisLoggedIn';
+import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
 
 export default function Index() {
-  
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <MainProvider>
-        <IsLoggedIn/>
-      </MainProvider>
-    </View>
-  );
+    return (
+        <View
+            style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <Text>Loader</Text>
+
+            <IsLoggedIn />
+        </View>
+    );
 }
-
-
 
 // This is the most secure and scalable solution:
 
@@ -41,8 +39,6 @@ export default function Index() {
 // SecureStore (Expo)
 // react-native-encrypted-storage
 // Use an interceptor (if using axios) to handle token expiration.
-
-
 
 // While you can't use the exact same code structure of a React web application directly in React Native due to differences in platform and libraries, you can follow a similar architectural approach to maintain consistency. Here's how you can adapt your School Blog Front project to React Native:
 

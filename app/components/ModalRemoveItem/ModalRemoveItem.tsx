@@ -30,7 +30,6 @@ export default function ModalRemoveItem(props: ModalProps) {
                 headers: myHeaders,
                 redirect: 'follow',
             });
-            console.log(1);
             if (!response.ok) {
                 const error = await response.json();
                 setContextError(error.message);
@@ -51,7 +50,6 @@ export default function ModalRemoveItem(props: ModalProps) {
     return (
         <View>
             <Text>{`Are you sure you want to remove this ${type}?`}</Text>
-
             <Button onPress={handleDelete} title="Yes" />
             <Button onPress={() => setOpenModalId('')} title="No" />
         </View>

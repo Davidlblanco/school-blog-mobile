@@ -8,6 +8,7 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import ListItem from './ListItem';
 import Search from '../Search/Search';
+import Header from '../header/Header';
 
 export default function List() {
     const { jwtToken, search, setSearch, role } = useMainContext();
@@ -48,24 +49,29 @@ export default function List() {
     useEffect(debounceSearch, [search]);
     const canCreate = role === 'ADMIN' || role === 'TECHER';
     return (
-        <SafeAreaProvider>
-            <Search set={setSearch} value={search} />
-            {canCreate && (
-                <Button
-                    onPress={() => router.push('/components/CreateUpdate/0')}
-                    title="CreateArticle"
-                />
-            )}
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => (
-                        <ListItem article={item} setData={setData} />
-                    )}
-                    keyExtractor={(item) => item.id}
-                />
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <>
+            <Header />
+            <SafeAreaProvider>
+                <Search set={setSearch} value={search} />
+                {canCreate && (
+                    <Button
+                        onPress={() =>
+                            router.push('/components/CreateUpdate/0')
+                        }
+                        title="CreateArticle"
+                    />
+                )}
+                <SafeAreaView style={styles.container}>
+                    <FlatList
+                        data={data}
+                        renderItem={({ item }) => (
+                            <ListItem article={item} setData={setData} />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
+                </SafeAreaView>
+            </SafeAreaProvider>
+        </>
     );
 }
 

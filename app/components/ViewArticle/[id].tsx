@@ -1,12 +1,50 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+import { useMainContext } from '@/contexts/useMainContext';
+import { Article } from '@/typings/projectTypes';
+import { apiUrl } from '@/utils/variables';
+import Header from '../header/Header';
 
-export default function CreateUpdate() {
+export default function ViewArticle() {
     const { id } = useLocalSearchParams<'/components/ViewArticle/[id]'>();
+    const { jwtToken } = useMainContext();
+    const [article, setArticle] = useState<Article>();
+    const getArticle = async () => {
+        try {
+            const articles = await fetch(`${apiUrl}/articles/${id}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!articles.ok) return;
+            const article: Article = await articles.json();
+            setArticle(article);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    useEffect(() => {
+        getArticle();
+    }, []);
+    if (!article) return;
     return (
         <View>
-            <Text>{id}</Text>
+            <Header />
+            <Text>{article.title}</Text>
+            {article.filePath ? (
+                <Image
+                    src={article.filePath}
+                    alt={article.title}
+                    className="rounded mr-4 mb-4 w-full	max-w-xl h-auto"
+                />
+            ) : null}
+            <Text>{article.content}</Text>
+
+            <Text>{article.creator.name}</Text>
+            <Text>{article.date.split('T')[0]}</Text>
         </View>
     );
 }
@@ -37,22 +75,24 @@ export default function CreateUpdate() {
 //     }, []);
 //     if (!article) return;
 //     return (
-//         <div className="p-4 pt-12 max-w-7xl mx-auto">
-//             <h1 className="text-3xl font-bold mb-4 text-gray-800">
-//                 {article.title}
-//             </h1>
-//             <div className="mb-4 flex flex-wrap	">
-//                 {article.filePath ? (
-//                     <img
-//                         src={article.filePath}
-//                         alt={article.title}
-//                         className="rounded mr-4 mb-4 w-full	max-w-xl h-auto"
-//                     />
-//                 ) : null}
-//                 <p className="text-gray-700 max-w-xl">{article.content}</p>
-//             </div>
-//             <p className="text-gray-500">By {article.creator.name}</p>
-//             <p className="text-gray-500">{article.date.split('T')[0]}</p>
-//         </div>
+{
+    /* <div className="p-4 pt-12 max-w-7xl mx-auto">
+    <h1 className="text-3xl font-bold mb-4 text-gray-800">
+        {article.title}
+    </h1>
+    <div className="mb-4 flex flex-wrap	">
+        {article.filePath ? (
+            <img
+                src={article.filePath}
+                alt={article.title}
+                className="rounded mr-4 mb-4 w-full	max-w-xl h-auto"
+            />
+        ) : null}
+        <p className="text-gray-700 max-w-xl">{article.content}</p>
+    </div>
+    <p className="text-gray-500">By {article.creator.name}</p>
+    <p className="text-gray-500">{article.date.split('T')[0]}</p>
+</div> */
+}
 //     );
 // }

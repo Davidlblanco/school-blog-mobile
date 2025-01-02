@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 interface InputProps {
     label: string;
     type: string;
@@ -31,12 +32,8 @@ export default function Input(props: InputProps) {
         // onlyNumbers,
     } = props;
     const [error, setError] = useState(false);
-    const handleChange = (text: string) => {
+    const handleChange = (finalValue: string | boolean) => {
         try {
-            let finalValue: any = text;
-            if (type === 'checkbox') {
-                finalValue = text === 'true';
-            }
             set(finalValue);
         } catch (e) {
             console.log(e);
@@ -51,20 +48,35 @@ export default function Input(props: InputProps) {
                     {required ? '*' : null}
                 </Text>
             )}
-            <TextInput
-                style={[styles.input, type !== 'checkbox' ? styles.fullWidth : null]}
-                placeholder={placeHolder}
-                // required={required}
-                onChangeText={handleChange}
-                value={value}
-                editable={!disabled}
-                maxLength={maxLength}
-                // minLength={minLength}
-                secureTextEntry={type === 'password'}
-            />
-            {message ? (
-                <Text style={styles.message}>{message}</Text>
-            ) : null}
+
+            {type === 'checkbox' ? (
+                <BouncyCheckbox
+                    size={25}
+                    // fillColor="red"
+                    // unFillColor="#FFFFFF"
+                    // text="Custom Checkbox"
+                    // iconStyle={{ borderColor: 'red' }}
+                    // innerIconStyle={{ borderWidth: 2 }}
+                    textStyle={{ fontFamily: 'JosefinSans-Regular' }}
+                    onPress={handleChange}
+                />
+            ) : (
+                <TextInput
+                    style={[
+                        styles.input,
+                        type !== 'checkbox' ? styles.fullWidth : null,
+                    ]}
+                    placeholder={placeHolder}
+                    // required={required}
+                    onChangeText={handleChange}
+                    value={value}
+                    editable={!disabled}
+                    maxLength={maxLength}
+                    // minLength={minLength}
+                    secureTextEntry={type === 'password'}
+                />
+            )}
+            {message ? <Text style={styles.message}>{message}</Text> : null}
             {errorMessage && error ? (
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
             ) : null}
@@ -91,7 +103,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
-        shadowRadius: 1
+        shadowRadius: 1,
     },
     fullWidth: {
         width: '100%',

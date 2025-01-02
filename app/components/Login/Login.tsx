@@ -13,33 +13,39 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
     const handleSubmit = async (e: GestureResponderEvent) => {
-        setErrorMessage(undefined);
-        e.preventDefault();
-        const myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
+        try {
+            setErrorMessage(undefined);
+            e.preventDefault();
+            const myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
 
-        const login = await fetch(`${apiUrl}/auth/login`, {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify({
-                userName,
-                password,
-            }),
-            redirect: 'follow',
-        });
-        const loginRes = await login.json();
+            const login = await fetch(`${apiUrl}/auth/login`, {
+                method: 'POST',
+                headers: myHeaders,
+                body: JSON.stringify({
+                    userName,
+                    password,
+                }),
+                redirect: 'follow',
+            });
 
-        if (!login.ok) {
-            setErrorMessage(loginRes.message);
+            const loginRes = await login.json();
+
+            if (!login.ok) {
+                setErrorMessage(loginRes.message);
+                console.log('error:', loginRes.message);
+            }
+            const accessToken = loginRes.access_token;
+            setJwtToken(accessToken);
+
+            const decoded: JwtPayload = jwtDecode(accessToken);
+            const currentTime = Math.floor(Date.now() / 1000);
+            const timeUntilExpiration = decoded.exp - currentTime;
+            //save to local storage
+            saveJwtToken(accessToken);
+        } catch (e) {
+            console.log(e);
         }
-        const accessToken = loginRes.access_token;
-        setJwtToken(accessToken);
-
-        const decoded: JwtPayload = jwtDecode(accessToken);
-        const currentTime = Math.floor(Date.now() / 1000);
-        const timeUntilExpiration = decoded.exp - currentTime;
-        //save to local storage
-        saveJwtToken(accessToken);
     };
 
     async function saveJwtToken(jwt: string) {
