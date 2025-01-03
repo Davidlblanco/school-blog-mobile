@@ -20,7 +20,7 @@ export default function ListItem(props: ListItemProps) {
     const { setData } = props;
     const { role, setOpenModalId } = useMainContext();
     const canUpdate = role === 'ADMIN' || role === 'TECHER';
-    const router = useRouter(); //
+    const router = useRouter();
     const handleDeleteSuccess = (articleId: string) => {
         setData((prevData) =>
             prevData.filter((article) => article.id !== articleId),

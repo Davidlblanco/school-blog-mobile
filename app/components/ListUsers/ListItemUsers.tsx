@@ -11,7 +11,7 @@ interface ListItemProps {
     setData: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
-export default function LustItemUsers(props: ListItemProps) {
+export default function ListItemUsers(props: ListItemProps) {
     const { id, name, email, userName, active } = props.user;
     const { setData } = props;
     const { role, setOpenModalId } = useMainContext();
@@ -29,7 +29,7 @@ export default function LustItemUsers(props: ListItemProps) {
                 <Text style={styles.title}>{email}</Text>
                 <Text style={styles.title}>{userName}</Text>
                 <Text style={styles.title}>active: {active.toString()}</Text>
-                {canUpdate ? (
+                {canUpdate && (
                     <>
                         <Button
                             onPress={() =>
@@ -42,7 +42,7 @@ export default function LustItemUsers(props: ListItemProps) {
                             title="Delete"
                         />
                     </>
-                ) : null}
+                )}
             </Link>
             <ModalRemoveItem
                 id={id}

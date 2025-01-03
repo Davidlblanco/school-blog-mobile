@@ -1,5 +1,5 @@
 import { useMainContext } from '@/contexts/useMainContext';
-import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -13,6 +13,7 @@ export default function Header() {
         removeJwtToken();
         setJwtToken(undefined);
         setIsLoggedIn(false);
+        router.replace('/components/Login/Login');
     }
     function toggleMenu() {
         setOpenMenu(!openMenu);

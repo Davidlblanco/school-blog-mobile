@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 interface InputProps {

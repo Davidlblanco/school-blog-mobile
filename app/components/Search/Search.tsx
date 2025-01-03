@@ -9,29 +9,12 @@ interface SearchProps {
 export default function Search(props: SearchProps) {
     const { value, set } = props;
     return (
-        <View>
-            <Input
-                type="text"
-                set={set}
-                value={value}
-                label=""
-                placeHolder="Search"
-            ></Input>
-        </View>
+        <Input
+            type="text"
+            set={set}
+            value={value}
+            label=""
+            placeHolder="Search"
+        ></Input>
     );
 }
-// import Input from '../Input/Input';
-// export default function Search(props: SearchProps) {
-//     const { value, set } = props;
-//     return (
-//         <div className="grow">
-//             <Input
-//                 type="text"
-//                 set={set}
-//                 value={value}
-//                 label=""
-//                 placeHolder="Search"
-//             ></Input>
-//         </div>
-//     );
-// }
