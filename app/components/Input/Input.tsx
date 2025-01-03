@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    TextStyle,
+    ViewStyle,
+} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 interface InputProps {
     label: string;
@@ -14,6 +21,12 @@ interface InputProps {
     minLength?: number;
     maxLength?: number;
     onlyNumbers?: boolean;
+    customStyles?: {
+        label?: TextStyle;
+        input?: TextStyle;
+        message?: TextStyle;
+        errorMessage?: TextStyle;
+    };
 }
 
 export default function Input(props: InputProps) {
@@ -29,6 +42,7 @@ export default function Input(props: InputProps) {
         disabled,
         maxLength,
         minLength,
+        customStyles,
         // onlyNumbers,
     } = props;
     const [error, setError] = useState(false);
@@ -43,7 +57,7 @@ export default function Input(props: InputProps) {
     return (
         <View style={styles.container}>
             {label !== '' && (
-                <Text style={styles.label}>
+                <Text style={(styles.label, customStyles?.label)}>
                     {label}
                     {required ? '*' : null}
                 </Text>
@@ -62,10 +76,7 @@ export default function Input(props: InputProps) {
                 />
             ) : (
                 <TextInput
-                    style={[
-                        styles.input,
-                        type !== 'checkbox' ? styles.fullWidth : null,
-                    ]}
+                    style={[styles.input, customStyles?.input]}
                     placeholder={placeHolder}
                     // required={required}
                     onChangeText={handleChange}
@@ -76,9 +87,17 @@ export default function Input(props: InputProps) {
                     secureTextEntry={type === 'password'}
                 />
             )}
-            {message ? <Text style={styles.message}>{message}</Text> : null}
+            {message ? (
+                <Text style={(styles.message, customStyles?.message)}>
+                    message
+                    {message}
+                </Text>
+            ) : null}
             {errorMessage && error ? (
-                <Text style={styles.errorMessage}>{errorMessage}</Text>
+                <Text style={(styles.errorMessage, customStyles?.errorMessage)}>
+                    error
+                    {errorMessage}
+                </Text>
             ) : null}
         </View>
     );
