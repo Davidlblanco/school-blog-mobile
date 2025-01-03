@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import Input from '../Input/Input';
 interface SearchProps {
@@ -15,6 +15,13 @@ export default function Search(props: SearchProps) {
             value={value}
             label=""
             placeHolder="Search"
+            customStyles={styles}
         ></Input>
     );
 }
+
+const styles = StyleSheet.create({
+    input: {
+        marginTop: 10,
+    },
+});

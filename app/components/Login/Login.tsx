@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import Input from '../Input/Input';
-import { apiUrl } from '../../../utils/variables';
+import { apiUrl, colors } from '../../../utils/variables';
 import { useMainContext } from '../../../contexts/useMainContext';
 import {
     GestureResponderEvent,
@@ -79,12 +79,6 @@ export default function Login() {
                     required
                     customStyles={styles}
                 />
-                {/* <Button
-                    onPress={handleSubmit}
-                    title="Login"
-                    color="#fff"
-                    accessibilityLabel="Login button"
-                /> */}
                 <TouchableOpacity onPress={handleSubmit}>
                     <Text style={styles.button}>Login</Text>
                 </TouchableOpacity>
@@ -144,7 +138,9 @@ const styles = StyleSheet.create({
         maxWidth: 400,
         textAlign: 'center',
         marginTop: 20,
-        // alignSelf: 'flex-end',
+        color: colors.mainColor,
+        fontWeight: 'bold',
+        fontSize: 17,
     },
     message: { color: '#fff' },
     errorMessage: { color: '#fff' },
