@@ -1,6 +1,6 @@
-import { Button, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { apiUrl } from '../../../utils/variables';
+import { apiUrl, colors } from '../../../utils/variables';
 import { useMainContext } from '@/contexts/useMainContext';
 interface ModalProps {
     id: string;
@@ -47,10 +47,39 @@ export default function ModalRemoveItem(props: ModalProps) {
 
     if (openModalId !== id) return null;
     return (
-        <View>
+        <View style={styles.container}>
             <Text>{`Are you sure you want to remove this ${type}?`}</Text>
-            <Button onPress={handleDelete} title="Yes" />
-            <Button onPress={() => setOpenModalId('')} title="No" />
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleDelete}>
+                    <Text style={styles.secondary}>Yes</Text>
+                </TouchableOpacity>
+                <Button
+                    onPress={() => setOpenModalId('')}
+                    title="No"
+                    color={colors.mainColor}
+                />
+            </View>
         </View>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.easyGrey,
+        minWidth: '100%',
+        padding: 16,
+        borderRadius: 4,
+    },
+    text: {
+        color: colors.darkText,
+    },
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 8,
+    },
+    secondary: {
+        color: colors.mainColor,
+        lineHeight: 30,
+        marginHorizontal: 8,
+    },
+});

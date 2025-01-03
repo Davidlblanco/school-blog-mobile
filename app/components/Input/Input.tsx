@@ -1,3 +1,4 @@
+import { colors } from '@/utils/variables';
 import { useState } from 'react';
 import {
     StyleSheet,
@@ -116,13 +117,8 @@ const styles = StyleSheet.create({
     input: {
         paddingHorizontal: 12,
         paddingVertical: 8,
-        borderWidth: 1,
-        borderColor: '#CBD5E0',
         borderRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1,
+        backgroundColor: '#fff',
     },
     fullWidth: {
         width: '100%',

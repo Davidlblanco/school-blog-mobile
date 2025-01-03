@@ -35,7 +35,7 @@ export default function Header() {
         } else {
             setOpenMenu(true);
             Animated.timing(drawerWidth, {
-                toValue: 200,
+                toValue: Dimensions.get('window').width,
                 duration: 300,
                 useNativeDriver: false,
             }).start();
@@ -64,6 +64,10 @@ export default function Header() {
                     <Animated.View
                         style={[styles.drawer, { width: drawerWidth }]}
                     >
+                        <TouchableOpacity
+                            style={styles.touchable}
+                            onPress={toggleMenu}
+                        />
                         <View style={styles.innetContent}>
                             <Link
                                 href="/components/List/List"
@@ -89,7 +93,7 @@ export default function Header() {
                             <Button
                                 onPress={handleLogOut}
                                 title="LogOut"
-                                color="#ffa384"
+                                color={colors.mainColor}
                             />
                         </View>
                     </Animated.View>
@@ -120,17 +124,18 @@ const styles = StyleSheet.create({
 
     drawer: {
         position: 'absolute',
-        backgroundColor: colors.easyGrey,
         top: 52,
         right: 0,
         zIndex: 1,
-        padding: 20,
         minHeight: Dimensions.get('window').height,
-        overflow: 'hidden',
-        borderLeftColor: colors.greyShadow,
-        borderLeftWidth: 1,
+        display: 'flex',
+        flexDirection: 'row',
     },
     innetContent: {
+        borderLeftWidth: 1,
+        padding: 20,
+        backgroundColor: colors.easyGrey,
+        borderLeftColor: colors.greyShadow,
         width: 160,
     },
     link: {
@@ -140,5 +145,12 @@ const styles = StyleSheet.create({
     lastLink: {
         marginBottom: 20,
         color: colors.darkText,
+    },
+    touchable: {
+        flex: 1,
+        backgroundColor: '#000',
+        minHeight: '100%',
+        maxWidth: Dimensions.get('window').width - 160,
+        opacity: 0.3,
     },
 });

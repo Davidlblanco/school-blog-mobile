@@ -7,4 +7,6 @@ export const colors = {
     easyGrey: '#f9f9f9',
     darkText: '#464646',
     greyShadow: '#f1f1f1',
+    greyDarkShadow: '#e5e5e5',
+    lightBg: '#ffebe2',
 };

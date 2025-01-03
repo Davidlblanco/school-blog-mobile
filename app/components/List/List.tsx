@@ -1,9 +1,9 @@
 import { useMainContext } from '@/contexts/useMainContext';
 import { Article } from '@/typings/projectTypes';
 import UseDebounce from '@/utils/UseDebounce';
-import { apiUrl } from '@/utils/variables';
+import { apiUrl, colors } from '@/utils/variables';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, StatusBar, Button } from 'react-native';
+import { FlatList, StyleSheet, StatusBar, Button, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import ListItem from './ListItem';
@@ -52,17 +52,20 @@ export default function List() {
     return (
         <>
             <Header />
-            <SafeAreaProvider>
+            <SafeAreaProvider style={styles.container}>
                 <Search set={setSearch} value={search} />
                 {canCreate && (
-                    <Button
-                        onPress={() =>
-                            router.push('/components/CreateUpdate/0')
-                        }
-                        title="CreateArticle"
-                    />
+                    <View style={canCreate && styles.button}>
+                        <Button
+                            onPress={() =>
+                                router.push('/components/CreateUpdate/0')
+                            }
+                            title="CreateArticle"
+                            color={colors.mainColor}
+                        />
+                    </View>
                 )}
-                <SafeAreaView style={styles.container}>
+                <SafeAreaView style={styles.list}>
                     <FlatList
                         data={data}
                         renderItem={({ item }) => (
@@ -79,7 +82,14 @@ export default function List() {
 
 const styles = StyleSheet.create({
     container: {
+        padding: 15,
+        backgroundColor: colors.lightBg,
+    },
+    list: {
         flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
+        marginTop: 0,
+    },
+    button: {
+        marginBottom: 16,
     },
 });
