@@ -54,7 +54,7 @@ export default function CreateUpdate() {
             return;
         }
         setContextSuccess(`Artigo ${id ? 'atualizado' : 'criado'}!`);
-        router.replace('/components/List/List');
+        router.dismiss(1);
     }
 
     async function setInitialParameters() {

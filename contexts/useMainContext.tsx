@@ -10,8 +10,8 @@ export type MainContextType = {
     jwtToken: string | undefined;
     setJwtToken: React.Dispatch<React.SetStateAction<string | undefined>>;
 
-    isLoggedIn: boolean;
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    isLoggedIn: boolean | undefined;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 
     contextError: string | undefined;
     setContextError: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -41,7 +41,9 @@ async function removeJwtToken() {
 
 const ProvideMainContext = () => {
     const [jwtToken, setJwtToken] = useState<string | undefined>();
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(
+        undefined,
+    );
     const [contextError, setContextError] = useState<string | undefined>();
     const [contextSuccess, setContextSuccess] = useState<string | undefined>();
     const [search, setSearch] = useState<string>('');
@@ -49,27 +51,27 @@ const ProvideMainContext = () => {
     const [openModalId, setOpenModalId] = useState<string>('');
     const [role, setRole] = useState<string>('');
 
-    async function setJwt(){
-       const jwt = await getJwtToken()
-       if (!jwt) {
-        setIsLoggedIn(false);
-        return;
-    }
-    const decoded: JwtPayload = jwtDecode(jwt);
-    
-    const currentTime = Math.floor(Date.now() / 1000);
-    const timeUntilExpiration = decoded.exp - currentTime;
-    if (timeUntilExpiration > 0) {
-        setJwtToken(jwt);
-        setIsLoggedIn(true);
-    } else {
-        await removeJwtToken() 
-        setIsLoggedIn(false);
-    }
-    getRoleFromJwt(jwt);
+    async function setJwt() {
+        const jwt = await getJwtToken();
+        if (!jwt) {
+            setIsLoggedIn(false);
+            return;
+        }
+        const decoded: JwtPayload = jwtDecode(jwt);
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        const timeUntilExpiration = decoded.exp - currentTime;
+        if (timeUntilExpiration > 0) {
+            setJwtToken(jwt);
+            setIsLoggedIn(true);
+        } else {
+            await removeJwtToken();
+            setIsLoggedIn(false);
+        }
+        getRoleFromJwt(jwt);
     }
     useEffect(() => {
-        setJwt()
+        setJwt();
     }, [jwtToken]);
 
     const getRoleFromJwt = (jwt: string) => {
@@ -95,8 +97,6 @@ const ProvideMainContext = () => {
     };
 };
 
-
-
 const MainContext = createContext<MainContextType>({} as MainContextType);
 
 const MainProvider = ({ children }: FormProviderType) => {
@@ -110,7 +110,3 @@ const MainProvider = ({ children }: FormProviderType) => {
 export const useMainContext = () => useContext(MainContext);
 
 export default MainProvider;
-
-
-
-

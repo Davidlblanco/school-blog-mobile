@@ -48,7 +48,9 @@ export default function ModalRemoveItem(props: ModalProps) {
     if (openModalId !== id) return null;
     return (
         <View style={styles.container}>
-            <Text>{`Are you sure you want to remove this ${type}?`}</Text>
+            <Text
+                style={styles.text}
+            >{`Are you sure you want to remove this ${type}?`}</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={handleDelete}>
                     <Text style={styles.secondary}>Yes</Text>

@@ -12,7 +12,8 @@ import Header from '../header/Header';
 import ToastComponent from '@/utils/Toast';
 
 export default function List() {
-    const { jwtToken, search, setSearch, role } = useMainContext();
+    const { jwtToken, search, setSearch, role, contextError, contextSuccess } =
+        useMainContext();
     const router = useRouter();
     const [data, setData] = useState<Article[]>([]);
     const getArticles = async () => {
@@ -45,7 +46,7 @@ export default function List() {
     };
     useEffect(() => {
         getArticles();
-    }, []);
+    }, [contextError, contextSuccess]);
     const debounceSearch = UseDebounce(() => getArticles(), 1000);
     useEffect(debounceSearch, [search]);
     const canCreate = role === 'ADMIN' || role === 'TECHER';
