@@ -4,7 +4,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { Article } from '@/typings/projectTypes';
 import { apiUrl } from '@/utils/variables';
-import Header from '../header/Header';
 
 export default function ViewArticle() {
     const { id } = useLocalSearchParams<'/components/ViewArticle/[id]'>();
@@ -32,7 +31,6 @@ export default function ViewArticle() {
     if (!article) return;
     return (
         <View>
-            <Header />
             <Text>{article.title}</Text>
             {article.filePath ? (
                 <Image

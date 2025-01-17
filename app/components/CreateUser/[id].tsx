@@ -8,7 +8,6 @@ import { User, UserType } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import ToastComponent from '@/utils/Toast';
 import RNPickerSelect from 'react-native-picker-select';
-import Header from '../header/Header';
 
 export default function CreateUpdateUser() {
     const {
@@ -60,7 +59,7 @@ export default function CreateUpdateUser() {
             return;
         }
         setContextSuccess(`User ${id ? 'updated' : 'created'}!`);
-        router.replace('/components/ListUsers/ListUsers');
+        router.dismiss(1);
     }
 
     async function setInitialParameters() {
@@ -91,7 +90,6 @@ export default function CreateUpdateUser() {
 
     return (
         <>
-            <Header />
             <View>
                 <Input
                     type="checkbox"

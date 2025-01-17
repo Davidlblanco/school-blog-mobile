@@ -7,8 +7,7 @@ import { FlatList, StyleSheet, StatusBar, Button, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import ListItem from './ListItem';
-import Search from '../Search/Search';
-import Header from '../header/Header';
+import Search from '../../components/Search/Search';
 import ToastComponent from '@/utils/Toast';
 
 export default function List() {
@@ -52,7 +51,6 @@ export default function List() {
     const canCreate = role === 'ADMIN' || role === 'TECHER';
     return (
         <>
-            <Header />
             <SafeAreaProvider style={styles.container}>
                 <Search set={setSearch} value={search} />
                 {canCreate && (

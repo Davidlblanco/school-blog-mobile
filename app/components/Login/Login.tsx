@@ -42,7 +42,7 @@ export default function Login() {
                 setErrorMessage(loginRes.message);
                 console.log('error:', loginRes.message);
             } else {
-                router.replace('/components/List/List');
+                router.replace('/(tabs)/List');
             }
             const accessToken = loginRes.access_token;
             setJwtToken(accessToken);

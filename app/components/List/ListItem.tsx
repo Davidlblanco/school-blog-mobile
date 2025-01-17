@@ -4,7 +4,7 @@ import { Article } from '@/typings/projectTypes';
 import { Link } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { useRouter } from 'expo-router';
-import ModalRemoveItem from '../ModalRemoveItem/ModalRemoveItem';
+import ModalRemoveItem from '../../components/ModalRemoveItem/ModalRemoveItem';
 import { colors } from '@/utils/variables';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         position: 'relative',
         minWidth: '100%',
-        // borderWidth: 1,
     },
     title: {
         fontSize: 32,

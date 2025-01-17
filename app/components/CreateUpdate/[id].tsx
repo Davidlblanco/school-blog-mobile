@@ -7,7 +7,6 @@ import { apiUrl } from '@/utils/variables';
 import { Article } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import ToastComponent from '@/utils/Toast';
-import Header from '../header/Header';
 
 export default function CreateUpdate() {
     const {
@@ -87,7 +86,6 @@ export default function CreateUpdate() {
 
     return (
         <>
-            <Header />
             <View>
                 <Input
                     type="checkbox"

@@ -8,11 +8,17 @@ import UseDebounce from '@/utils/UseDebounce';
 import { apiUrl } from '@/utils/variables';
 import ListItemUsers from './ListItemUsers';
 import Search from '../Search/Search';
-import Header from '../header/Header';
 import ToastComponent from '@/utils/Toast';
 
 export default function ListUsers() {
-    const { jwtToken, searchUser, setSearchUser, role } = useMainContext();
+    const {
+        jwtToken,
+        searchUser,
+        setSearchUser,
+        role,
+        contextSuccess,
+        contextError,
+    } = useMainContext();
     const router = useRouter();
     const [data, setData] = useState<User[]>([]);
 
@@ -44,7 +50,7 @@ export default function ListUsers() {
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [contextSuccess, contextError]);
 
     const debounceSearch = UseDebounce(() => getUsers(), 1000);
     useEffect(debounceSearch, [searchUser]);
@@ -53,7 +59,6 @@ export default function ListUsers() {
 
     return (
         <>
-            <Header />
             <SafeAreaProvider>
                 <Search set={setSearchUser} value={searchUser} />
                 {canCreate && (

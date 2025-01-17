@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { useMainContext } from '../../../contexts/useMainContext';
-import { apiUrl } from '../../../utils/variables';
-import { User } from '../../../typings/projectTypes';
-import Input from '../Input/Input';
+import { useMainContext } from '../../contexts/useMainContext';
+import { apiUrl, colors } from '../../utils/variables';
+import { User } from '../../typings/projectTypes';
+import Input from '../components/Input/Input';
 import { View, Button, GestureResponderEvent } from 'react-native';
 import ToastComponent from '@/utils/Toast';
-import Header from '../header/Header';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export default function MyAccount() {
-    const { jwtToken, setContextError, setContextSuccess } = useMainContext();
+    const {
+        jwtToken,
+        setContextError,
+        setContextSuccess,
+        setJwtToken,
+        setIsLoggedIn,
+    } = useMainContext();
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [userName, setUserName] = useState<string>('');
     const [userPassword, setUserPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const router = useRouter();
 
+    function handleLogOut() {
+        removeJwtToken();
+        setJwtToken(undefined);
+        setIsLoggedIn(false);
+        router.replace('/');
+    }
+    async function removeJwtToken() {
+        await AsyncStorage.removeItem('school-blog-jwt');
+    }
     function createHeaders() {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -95,7 +112,6 @@ export default function MyAccount() {
     }
     return (
         <>
-            <Header />
             <View>
                 <Input
                     type="text"
@@ -131,7 +147,13 @@ export default function MyAccount() {
                     set={setConfirmPassword}
                 />
                 <Button onPress={handleSubmit} title="save" />
+                <Button
+                    onPress={handleLogOut}
+                    title="LogOut"
+                    color={colors.mainColor}
+                />
             </View>
+
             <ToastComponent />
         </>
     );
