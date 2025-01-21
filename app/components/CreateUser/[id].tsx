@@ -1,6 +1,6 @@
 import { View, Button, GestureResponderEvent } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import Input from '../Input/Input';
 import { useMainContext } from '@/contexts/useMainContext';
 import { apiUrl } from '@/utils/variables';
@@ -21,7 +21,7 @@ export default function CreateUpdateUser() {
     const [type, setType] = useState<UserType>('STUDENT');
     const { jwtToken, setContextError, setContextSuccess, role } =
         useMainContext();
-
+    const navigation = useNavigation();
     const router = useRouter();
 
     function createHeaders() {
@@ -79,10 +79,14 @@ export default function CreateUpdateUser() {
         setEmail(user.email);
         setUserName(user.userName);
         setType(user.type);
+        navigation.setOptions({ title: user.userName });
     }
 
     useEffect(() => {
-        if (!id) return;
+        if (!id) {
+            navigation.setOptions({ title: 'New User' });
+            return;
+        }
         setInitialParameters();
     }, [id]);
 

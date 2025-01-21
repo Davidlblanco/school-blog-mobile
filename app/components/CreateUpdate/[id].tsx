@@ -1,6 +1,6 @@
 import { View, Text, Button, GestureResponderEvent } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import Input from '../Input/Input';
 import { useMainContext } from '@/contexts/useMainContext';
 import { apiUrl } from '@/utils/variables';
@@ -19,7 +19,7 @@ export default function CreateUpdate() {
     const [imageUrl, setImageUrl] = useState('');
     const { jwtToken, setContextError, setContextSuccess, role } =
         useMainContext();
-
+    const navigation = useNavigation();
     const router = useRouter();
 
     function createHeaders() {
@@ -74,11 +74,15 @@ export default function CreateUpdate() {
         console.log('setActive', active, article.active);
         setTitle(article.title);
         setContent(article.content);
+        navigation.setOptions({ title: article.title });
         if (article.filePath) setImageUrl(article.filePath);
     }
 
     useEffect(() => {
-        if (!id) return;
+        if (!id) {
+            navigation.setOptions({ title: 'New Article' });
+            return;
+        }
         setInitialParameters();
     }, []);
 

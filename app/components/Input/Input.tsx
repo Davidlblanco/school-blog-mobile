@@ -67,11 +67,7 @@ export default function Input(props: InputProps) {
             {type === 'checkbox' ? (
                 <BouncyCheckbox
                     size={25}
-                    // fillColor="red"
-                    // unFillColor="#FFFFFF"
-                    // text="Custom Checkbox"
-                    // iconStyle={{ borderColor: 'red' }}
-                    // innerIconStyle={{ borderWidth: 2 }}
+                    isChecked={value}
                     textStyle={{ fontFamily: 'JosefinSans-Regular' }}
                     onPress={handleChange}
                 />

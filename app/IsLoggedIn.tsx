@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Redirect, useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
 import { Text } from 'react-native';
 import { useMainContext } from '../contexts/useMainContext';
 
