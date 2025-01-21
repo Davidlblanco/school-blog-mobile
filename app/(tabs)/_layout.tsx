@@ -1,12 +1,18 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { colors } from '@/utils/variables';
 export default function _layout() {
     return (
-        <Tabs>
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: colors.mainColor,
+            }}
+        >
             <Tabs.Screen
                 name="List"
                 options={{
+                    title: 'Articles',
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="list" color={color} size={size} />
                     ),

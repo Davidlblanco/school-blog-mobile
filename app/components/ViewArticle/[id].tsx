@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
@@ -9,6 +9,9 @@ export default function ViewArticle() {
     const { id } = useLocalSearchParams<'/components/ViewArticle/[id]'>();
     const { jwtToken } = useMainContext();
     const [article, setArticle] = useState<Article>();
+    const [imageHeight, setImageHeight] = useState<number | null>(null);
+
+    const screenWidth = Dimensions.get('window').width;
     const getArticle = async () => {
         try {
             const articles = await fetch(`${apiUrl}/articles/${id}`, {
@@ -21,22 +24,35 @@ export default function ViewArticle() {
             if (!articles.ok) return;
             const article: Article = await articles.json();
             setArticle(article);
+            if (article.filePath) {
+                Image.getSize(
+                    article.filePath,
+                    (width, height) => {
+                        const calculatedHeight = (height / width) * screenWidth;
+                        setImageHeight(calculatedHeight);
+                    },
+                    (error) =>
+                        console.error('Error fetching image size:', error),
+                );
+            }
         } catch (e) {
             console.log(e);
         }
     };
+
     useEffect(() => {
         getArticle();
     }, []);
     if (!article) return;
     return (
         <View>
-            <Text>{article.title}</Text>
+            <Text>{article.title} </Text>
             {article.filePath ? (
                 <Image
-                    src={article.filePath}
-                    alt={article.title}
-                    className="rounded mr-4 mb-4 w-full	max-w-xl h-auto"
+                    source={{
+                        uri: article.filePath,
+                    }}
+                    style={{ width: screenWidth, height: imageHeight }}
                 />
             ) : null}
             <Text>{article.content}</Text>
