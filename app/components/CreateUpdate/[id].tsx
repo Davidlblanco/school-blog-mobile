@@ -1,9 +1,15 @@
-import { View, Text, Button, GestureResponderEvent } from 'react-native';
+import {
+    View,
+    Text,
+    Button,
+    GestureResponderEvent,
+    StyleSheet,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import Input from '../Input/Input';
 import { useMainContext } from '@/contexts/useMainContext';
-import { apiUrl } from '@/utils/variables';
+import { apiUrl, colors } from '@/utils/variables';
 import { Article } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import ToastComponent from '@/utils/Toast';
@@ -89,8 +95,8 @@ export default function CreateUpdate() {
     if (role !== 'ADMIN' && role !== 'TEACHER') return <AccessDenied />;
 
     return (
-        <>
-            <View>
+        <View style={styles.container}>
+            <View style={styles.innerContainer}>
                 <Input
                     type="checkbox"
                     label="Status"
@@ -117,9 +123,26 @@ export default function CreateUpdate() {
                     value={imageUrl}
                     set={setImageUrl}
                 />
-                <Button onPress={handleSubmit} title="Save" />
+                <Button
+                    color={colors.mainColor}
+                    onPress={handleSubmit}
+                    title="Save"
+                />
             </View>
             <ToastComponent />
-        </>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        backgroundColor: colors.lightBg,
+        height: '100%',
+    },
+    innerContainer: {
+        borderRadius: 10,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+});

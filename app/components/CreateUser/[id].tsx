@@ -1,9 +1,9 @@
-import { View, Button, GestureResponderEvent } from 'react-native';
+import { View, Button, GestureResponderEvent, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import Input from '../Input/Input';
 import { useMainContext } from '@/contexts/useMainContext';
-import { apiUrl } from '@/utils/variables';
+import { apiUrl, colors } from '@/utils/variables';
 import { User, UserType } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import ToastComponent from '@/utils/Toast';
@@ -93,8 +93,8 @@ export default function CreateUpdateUser() {
     if (role !== 'ADMIN') return <AccessDenied />;
 
     return (
-        <>
-            <View>
+        <View style={styles.container}>
+            <View style={styles.innerContainer}>
                 <Input
                     type="checkbox"
                     label="Status"
@@ -122,18 +122,43 @@ export default function CreateUpdateUser() {
                     set={setUserName}
                     required
                 />
-                <RNPickerSelect
-                    onValueChange={(value) => setType(value)}
-                    items={[
-                        { label: 'Admin', value: 'ADMIN' },
-                        { label: 'Teacher', value: 'TEACHER' },
-                        { label: 'Student', value: 'STUDENT' },
-                    ]}
-                    value={type}
+                <View style={styles.selectHolder}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setType(value)}
+                        items={[
+                            { label: 'Admin', value: 'ADMIN' },
+                            { label: 'Teacher', value: 'TEACHER' },
+                            { label: 'Student', value: 'STUDENT' },
+                        ]}
+                        value={type}
+                        // style={pickerSelectStyles}
+                    />
+                </View>
+                <Button
+                    onPress={handleSubmit}
+                    color={colors.mainColor}
+                    title="Save"
                 />
-                <Button onPress={handleSubmit} title="Save" />
             </View>
             <ToastComponent />
-        </>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        backgroundColor: colors.lightBg,
+        height: '100%',
+    },
+    innerContainer: {
+        borderRadius: 10,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    selectHolder: {
+        borderWidth: 1,
+        borderColor: colors.greyShadow,
+        marginBottom: 16,
+    },
+});

@@ -58,7 +58,7 @@ export default function Input(props: InputProps) {
     return (
         <View style={styles.container}>
             {label !== '' && (
-                <Text style={(styles.label, customStyles?.label)}>
+                <Text style={{ ...styles.label, ...customStyles?.label }}>
                     {label}
                     {required ? '*' : null}
                 </Text>
@@ -67,13 +67,14 @@ export default function Input(props: InputProps) {
             {type === 'checkbox' ? (
                 <BouncyCheckbox
                     size={25}
+                    fillColor={colors.mainColor}
                     isChecked={value}
                     textStyle={{ fontFamily: 'JosefinSans-Regular' }}
                     onPress={handleChange}
                 />
             ) : (
                 <TextInput
-                    style={[styles.input, customStyles?.input]}
+                    style={{ ...styles.input, ...customStyles?.input }}
                     placeholder={placeHolder}
                     // required={required}
                     onChangeText={handleChange}
@@ -85,13 +86,18 @@ export default function Input(props: InputProps) {
                 />
             )}
             {message ? (
-                <Text style={(styles.message, customStyles?.message)}>
+                <Text style={{ ...styles.message, ...customStyles?.message }}>
                     message
                     {message}
                 </Text>
             ) : null}
             {errorMessage && error ? (
-                <Text style={(styles.errorMessage, customStyles?.errorMessage)}>
+                <Text
+                    style={{
+                        ...styles.errorMessage,
+                        ...customStyles?.errorMessage,
+                    }}
+                >
                     error
                     {errorMessage}
                 </Text>
@@ -108,13 +114,15 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         fontSize: 14,
         fontWeight: '500',
-        color: '#4A5568',
+        color: colors.darkText,
     },
     input: {
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 4,
         backgroundColor: '#fff',
+        borderColor: colors.greyShadow,
+        borderWidth: 1,
     },
     fullWidth: {
         width: '100%',

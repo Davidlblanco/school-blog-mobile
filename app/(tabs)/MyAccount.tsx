@@ -3,7 +3,14 @@ import { useMainContext } from '../../contexts/useMainContext';
 import { apiUrl, colors } from '../../utils/variables';
 import { User } from '../../typings/projectTypes';
 import Input from '../components/Input/Input';
-import { View, Button, GestureResponderEvent } from 'react-native';
+import {
+    View,
+    Button,
+    GestureResponderEvent,
+    StyleSheet,
+    TouchableOpacity,
+    Text,
+} from 'react-native';
 import ToastComponent from '@/utils/Toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
@@ -111,8 +118,8 @@ export default function MyAccount() {
         setContextSuccess(`Usuário atualizado com sucesso!`);
     }
     return (
-        <>
-            <View>
+        <View style={styles.container}>
+            <View style={styles.innerContainer}>
                 <Input
                     type="text"
                     label="Name"
@@ -146,15 +153,43 @@ export default function MyAccount() {
                     value={confirmPassword}
                     set={setConfirmPassword}
                 />
-                <Button onPress={handleSubmit} title="save" />
-                <Button
-                    onPress={handleLogOut}
-                    title="LogOut"
-                    color={colors.mainColor}
-                />
+                <View style={styles.saveButton}>
+                    <Button
+                        onPress={handleSubmit}
+                        title="Save"
+                        color={colors.mainColor}
+                    />
+                </View>
+
+                <TouchableOpacity onPress={handleLogOut}>
+                    <Text style={styles.button}>LogOut</Text>
+                </TouchableOpacity>
             </View>
 
             <ToastComponent />
-        </>
+        </View>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        backgroundColor: colors.lightBg,
+        height: '100%',
+    },
+    innerContainer: {
+        borderRadius: 10,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    saveButton: {
+        marginBottom: 16,
+    },
+    button: {
+        color: colors.mainColor,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderColor: colors.mainColor,
+        paddingVertical: 8,
+        backgroundColor: '#fff',
+    },
+});

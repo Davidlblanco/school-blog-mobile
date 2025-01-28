@@ -9,4 +9,6 @@ export const colors = {
     greyShadow: '#f1f1f1',
     greyDarkShadow: '#e5e5e5',
     lightBg: '#ffebe2',
+    message: '#A0AEC0',
+    errorMessage: '#E53E3E',
 };
