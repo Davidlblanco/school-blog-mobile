@@ -1,7 +1,7 @@
 import { useMainContext } from '@/contexts/useMainContext';
 import { Article } from '@/typings/projectTypes';
 import UseDebounce from '@/utils/UseDebounce';
-import { apiUrl, colors } from '@/utils/variables';
+import { apiUrl, colors, listStyles } from '@/utils/variables';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, StatusBar, Button, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -51,10 +51,10 @@ export default function List() {
     const canCreate = role === 'ADMIN' || role === 'TECHER';
     return (
         <>
-            <SafeAreaProvider style={styles.container}>
+            <SafeAreaProvider style={listStyles.container}>
                 <Search set={setSearch} value={search} />
                 {canCreate && (
-                    <View style={canCreate && styles.button}>
+                    <View style={canCreate && listStyles.button}>
                         <Button
                             onPress={() =>
                                 router.push('/components/CreateUpdate/0')
@@ -64,7 +64,7 @@ export default function List() {
                         />
                     </View>
                 )}
-                <SafeAreaView style={styles.list}>
+                <SafeAreaView style={listStyles.list}>
                     <FlatList
                         data={data}
                         renderItem={({ item }) => <ListItem article={item} />}
@@ -76,17 +76,3 @@ export default function List() {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 15,
-        backgroundColor: colors.lightBg,
-    },
-    list: {
-        flex: 1,
-        marginTop: 0,
-    },
-    button: {
-        marginBottom: 16,
-    },
-});

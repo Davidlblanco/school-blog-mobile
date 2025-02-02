@@ -3,14 +3,8 @@ import React from 'react';
 import { apiUrl, colors } from '../../../../utils/variables';
 import { useMainContext } from '@/contexts/useMainContext';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-interface ModalProps {
-    id: string;
-    type: 'article' | 'user';
-    onDeleteSuccess: () => void;
-}
 
-export default function ModalRemoveItem(props: ModalProps) {
-    // const { type, onDeleteSuccess } = props;
+export default function ModalRemoveItem() {
     const { id, type } =
         useLocalSearchParams<'/components/ModalRemoveItem/[type]/[id]'>();
     const {
@@ -44,7 +38,6 @@ export default function ModalRemoveItem(props: ModalProps) {
             const result = await response.text();
             setContextSuccess(result);
             setOpenModalId('');
-            // onDeleteSuccess();
             router.back();
         } catch (error) {
             setContextError('Failed to delete item');
@@ -52,7 +45,6 @@ export default function ModalRemoveItem(props: ModalProps) {
         }
     }
 
-    // if (openModalId !== id) return null;
     return (
         <View style={styles.container}>
             <Text

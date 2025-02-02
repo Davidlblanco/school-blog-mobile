@@ -1,13 +1,6 @@
 import { colors } from '@/utils/variables';
 import { useState } from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    TextStyle,
-    ViewStyle,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, View, TextStyle } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 interface InputProps {
     label: string;
@@ -42,16 +35,14 @@ export default function Input(props: InputProps) {
         value,
         disabled,
         maxLength,
-        minLength,
         customStyles,
-        // onlyNumbers,
     } = props;
     const [error, setError] = useState(false);
     const handleChange = (finalValue: string | boolean) => {
         try {
             set(finalValue);
         } catch (e) {
-            console.log(e);
+            console.log('ERROR: ', e); //FOR DEVELOPING PURPOSES
             setError(true);
         }
     };
@@ -74,14 +65,14 @@ export default function Input(props: InputProps) {
                 />
             ) : (
                 <TextInput
+                    multiline={true}
+                    numberOfLines={200}
                     style={{ ...styles.input, ...customStyles?.input }}
                     placeholder={placeHolder}
-                    // required={required}
                     onChangeText={handleChange}
                     value={value}
                     editable={!disabled}
                     maxLength={maxLength}
-                    // minLength={minLength}
                     secureTextEntry={type === 'password'}
                 />
             )}
@@ -130,7 +121,7 @@ const styles = StyleSheet.create({
     message: {
         marginTop: 8,
         fontSize: 14,
-        color: '#A0AEC0',
+        color: colors.message,
     },
     errorMessage: {
         marginTop: 8,

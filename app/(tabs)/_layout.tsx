@@ -27,7 +27,7 @@ export default function _layout() {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="people" color={color} size={size} />
                     ),
-                    href: role === 'STUDENT' ? null : '/UserList',
+                    href: role === 'ADMIN' ? '/UserList' : null,
                 }}
             />
             <Tabs.Screen

@@ -38,7 +38,7 @@ export default function ViewArticle() {
             }
             navigation.setOptions({ title: article.title });
         } catch (e) {
-            console.log(e);
+            console.log('Error:', e);
         }
     };
 

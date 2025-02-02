@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, StatusBar, Button, View } from 'react-native';
+import { FlatList, StyleSheet, Button, View } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { User } from '@/typings/projectTypes';
 import UseDebounce from '@/utils/UseDebounce';
-import { apiUrl, colors } from '@/utils/variables';
+import { apiUrl, colors, listStyles } from '@/utils/variables';
 import ListItemUsers from './ListItemUsers';
 import Search from '../Search/Search';
 import ToastComponent from '@/utils/Toast';
@@ -59,10 +59,10 @@ export default function ListUsers() {
 
     return (
         <>
-            <SafeAreaProvider style={styles.container}>
+            <SafeAreaProvider style={listStyles.container}>
                 <Search set={setSearchUser} value={searchUser} />
                 {canCreate && (
-                    <View style={canCreate && styles.button}>
+                    <View style={canCreate && listStyles.button}>
                         <Button
                             onPress={() =>
                                 router.push('/components/CreateUser/0')
@@ -72,7 +72,7 @@ export default function ListUsers() {
                         />
                     </View>
                 )}
-                <SafeAreaView style={styles.list}>
+                <SafeAreaView style={listStyles.list}>
                     <FlatList
                         data={data}
                         renderItem={({ item }) => <ListItemUsers user={item} />}
@@ -84,17 +84,3 @@ export default function ListUsers() {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 15,
-        backgroundColor: colors.lightBg,
-    },
-    list: {
-        flex: 1,
-        marginTop: 0,
-    },
-    button: {
-        marginBottom: 16,
-    },
-});

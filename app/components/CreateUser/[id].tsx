@@ -3,16 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import Input from '../Input/Input';
 import { useMainContext } from '@/contexts/useMainContext';
-import { apiUrl, colors } from '@/utils/variables';
+import { apiUrl, colors, formContainerStyles } from '@/utils/variables';
 import { User, UserType } from '@/typings/projectTypes';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import ToastComponent from '@/utils/Toast';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function CreateUpdateUser() {
-    const {
-        id: paramId, // string
-    } = useLocalSearchParams<'/components/CreateUser/[id]'>();
+    const { id: paramId } =
+        useLocalSearchParams<'/components/CreateUser/[id]'>();
     const id = paramId === '0' ? undefined : paramId;
     const [active, setActive] = useState(false);
     const [name, setName] = useState('');
@@ -40,7 +39,7 @@ export default function CreateUpdateUser() {
             type,
         };
         if (!id) {
-            payload.password = 'Ch@ngeMe1';
+            payload.password = 'Ch@ngeMe1'; //DEFAUT PASSWORD
         }
 
         const createUpdateUser = await fetch(
@@ -93,8 +92,8 @@ export default function CreateUpdateUser() {
     if (role !== 'ADMIN') return <AccessDenied />;
 
     return (
-        <View style={styles.container}>
-            <View style={styles.innerContainer}>
+        <View style={formContainerStyles.container}>
+            <View style={formContainerStyles.innerContainer}>
                 <Input
                     type="checkbox"
                     label="Status"
@@ -131,7 +130,6 @@ export default function CreateUpdateUser() {
                             { label: 'Student', value: 'STUDENT' },
                         ]}
                         value={type}
-                        // style={pickerSelectStyles}
                     />
                 </View>
                 <Button
@@ -146,16 +144,6 @@ export default function CreateUpdateUser() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-        backgroundColor: colors.lightBg,
-        height: '100%',
-    },
-    innerContainer: {
-        borderRadius: 10,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
     selectHolder: {
         borderWidth: 1,
         borderColor: colors.greyShadow,

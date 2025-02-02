@@ -4,7 +4,7 @@ import { Article } from '@/typings/projectTypes';
 import { Link } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { useRouter } from 'expo-router';
-import { colors } from '@/utils/variables';
+import { colors, listItemStyles } from '@/utils/variables';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ListItemProps {
@@ -24,10 +24,10 @@ export default function ListItem(props: ListItemProps) {
 
     if (!canUpdate && !active) return null;
     return (
-        <View style={styles.itemWrapper}>
-            <View style={styles.item}>
+        <View style={listItemStyles.itemWrapper}>
+            <View style={listItemStyles.item}>
                 {canUpdate && (
-                    <View style={styles.icon}>
+                    <View style={listItemStyles.icon}>
                         <Icon
                             name={active ? 'check-circle' : 'cancel'}
                             size={24}
@@ -35,11 +35,8 @@ export default function ListItem(props: ListItemProps) {
                         />
                     </View>
                 )}
-                <Link
-                    href={`/components/ViewArticle/${id}`}
-                    style={styles.content}
-                >
-                    <Text style={styles.title}>
+                <Link href={`/components/ViewArticle/${id}`}>
+                    <Text style={listItemStyles.title}>
                         {title}
                         {'\n'}
                     </Text>
@@ -54,7 +51,7 @@ export default function ListItem(props: ListItemProps) {
                         {'\n'}
                     </Text>
                     {canUpdate ? (
-                        <View style={styles.updatingSection}>
+                        <View style={listItemStyles.updatingSection}>
                             <Button
                                 onPress={() =>
                                     router.push(
@@ -82,24 +79,6 @@ export default function ListItem(props: ListItemProps) {
 }
 
 const styles = StyleSheet.create({
-    itemWrapper: {
-        backgroundColor: '#fff',
-        borderRadius: 4,
-        borderColor: colors.greyShadow,
-        marginBottom: 16,
-    },
-    item: {
-        paddingVertical: 20,
-        paddingHorizontal: 15,
-        display: 'flex',
-        flexDirection: 'row',
-        position: 'relative',
-        minWidth: '100%',
-    },
-    title: {
-        fontSize: 32,
-        color: colors.darkText,
-    },
     articleContent: {
         fontSize: 15,
         color: colors.darkText,
@@ -109,16 +88,5 @@ const styles = StyleSheet.create({
     name: {
         color: colors.darkText,
         fontSize: 12,
-    },
-    content: {},
-    icon: {
-        marginTop: 12,
-        marginRight: 10,
-    },
-    updatingSection: {
-        paddingTop: 16,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 12,
     },
 });

@@ -49,7 +49,7 @@ export default function Login() {
 
             saveJwtToken(accessToken);
         } catch (e) {
-            console.log(e);
+            console.log('error:', e);
         }
     };
 
