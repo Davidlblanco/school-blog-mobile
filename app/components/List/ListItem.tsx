@@ -4,13 +4,11 @@ import { Article } from '@/typings/projectTypes';
 import { Link } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { useRouter } from 'expo-router';
-import ModalRemoveItem from '../../components/ModalRemoveItem/ModalRemoveItem';
 import { colors } from '@/utils/variables';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ListItemProps {
     article: Article;
-    setData: React.Dispatch<React.SetStateAction<Article[]>>;
 }
 export default function ListItem(props: ListItemProps) {
     const {
@@ -20,15 +18,10 @@ export default function ListItem(props: ListItemProps) {
         active,
         creator: { name: creatorName },
     } = props.article;
-    const { setData } = props;
-    const { role, setOpenModalId } = useMainContext();
+    const { role } = useMainContext();
     const canUpdate = role === 'ADMIN' || role === 'TECHER';
     const router = useRouter();
-    const handleDeleteSuccess = (articleId: string) => {
-        setData((prevData) =>
-            prevData.filter((article) => article.id !== articleId),
-        );
-    };
+
     if (!canUpdate && !active) return null;
     return (
         <View style={styles.itemWrapper}>
@@ -72,7 +65,11 @@ export default function ListItem(props: ListItemProps) {
                                 color={colors.mainColor}
                             />
                             <Button
-                                onPress={() => setOpenModalId(id)}
+                                onPress={() =>
+                                    router.navigate(
+                                        `/components/ModalRemoveItem/article/${id}`,
+                                    )
+                                }
                                 title="Delete"
                                 color={colors.mainColor}
                             />
@@ -80,11 +77,6 @@ export default function ListItem(props: ListItemProps) {
                     ) : null}
                 </Link>
             </View>
-            <ModalRemoveItem
-                id={id}
-                onDeleteSuccess={() => handleDeleteSuccess(id)}
-                type="article"
-            />
         </View>
     );
 }

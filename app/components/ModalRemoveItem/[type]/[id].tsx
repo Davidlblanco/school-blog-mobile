@@ -1,7 +1,8 @@
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { apiUrl, colors } from '../../../utils/variables';
+import { apiUrl, colors } from '../../../../utils/variables';
 import { useMainContext } from '@/contexts/useMainContext';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 interface ModalProps {
     id: string;
     type: 'article' | 'user';
@@ -9,7 +10,9 @@ interface ModalProps {
 }
 
 export default function ModalRemoveItem(props: ModalProps) {
-    const { id, type, onDeleteSuccess } = props;
+    // const { type, onDeleteSuccess } = props;
+    const { id, type } =
+        useLocalSearchParams<'/components/ModalRemoveItem/[type]/[id]'>();
     const {
         openModalId,
         setOpenModalId,
@@ -17,6 +20,9 @@ export default function ModalRemoveItem(props: ModalProps) {
         setContextSuccess,
         setContextError,
     } = useMainContext();
+    const navigation = useNavigation();
+    navigation.setOptions({ headerShown: false });
+
     async function handleDelete() {
         if (!jwtToken) return;
         const myHeaders = new Headers();
@@ -38,14 +44,15 @@ export default function ModalRemoveItem(props: ModalProps) {
             const result = await response.text();
             setContextSuccess(result);
             setOpenModalId('');
-            onDeleteSuccess();
+            // onDeleteSuccess();
+            router.back();
         } catch (error) {
             setContextError('Failed to delete item');
             console.error('ERROR:', error);
         }
     }
 
-    if (openModalId !== id) return null;
+    // if (openModalId !== id) return null;
     return (
         <View style={styles.container}>
             <Text
@@ -56,7 +63,7 @@ export default function ModalRemoveItem(props: ModalProps) {
                     <Text style={styles.secondary}>Yes</Text>
                 </TouchableOpacity>
                 <Button
-                    onPress={() => setOpenModalId('')}
+                    onPress={() => router.back()}
                     title="No"
                     color={colors.mainColor}
                 />
@@ -68,15 +75,24 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.easyGrey,
         minWidth: '100%',
+        minHeight: '100%',
         padding: 16,
         borderRadius: 4,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     text: {
         color: colors.darkText,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     buttonContainer: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
         marginTop: 8,
     },
     secondary: {

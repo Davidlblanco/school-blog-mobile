@@ -67,9 +67,7 @@ export default function List() {
                 <SafeAreaView style={styles.list}>
                     <FlatList
                         data={data}
-                        renderItem={({ item }) => (
-                            <ListItem article={item} setData={setData} />
-                        )}
+                        renderItem={({ item }) => <ListItem article={item} />}
                         keyExtractor={(item) => item.id}
                     />
                 </SafeAreaView>

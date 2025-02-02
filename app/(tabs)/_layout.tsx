@@ -2,7 +2,9 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@/utils/variables';
+import { useMainContext } from '@/contexts/useMainContext';
 export default function _layout() {
+    const { role } = useMainContext();
     return (
         <Tabs
             screenOptions={{
@@ -25,6 +27,7 @@ export default function _layout() {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="people" color={color} size={size} />
                     ),
+                    href: role === 'STUDENT' ? null : '/UserList',
                 }}
             />
             <Tabs.Screen

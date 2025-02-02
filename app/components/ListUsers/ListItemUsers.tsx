@@ -4,25 +4,19 @@ import { User } from '@/typings/projectTypes';
 import { Link } from 'expo-router';
 import { useMainContext } from '@/contexts/useMainContext';
 import { useRouter } from 'expo-router';
-import ModalRemoveItem from '../ModalRemoveItem/ModalRemoveItem';
+import ModalRemoveItem from '../ModalRemoveItem/[type]/[id]';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@/utils/variables';
 
 interface ListItemProps {
     user: User;
-    setData: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 export default function ListItemUsers(props: ListItemProps) {
     const { id, name, email, userName, active } = props.user;
-    const { setData } = props;
-    const { role, setOpenModalId } = useMainContext();
+    const { role } = useMainContext();
     const canUpdate = role === 'ADMIN';
     const router = useRouter();
-
-    const handleDeleteSuccess = (userId: string) => {
-        setData((prevData) => prevData.filter((user) => user.id !== userId));
-    };
 
     return (
         <View style={styles.itemWrapper}>
@@ -56,7 +50,11 @@ export default function ListItemUsers(props: ListItemProps) {
                     {canUpdate && (
                         <View style={styles.updatingSection}>
                             <Button
-                                onPress={() => setOpenModalId(id)}
+                                onPress={() =>
+                                    router.navigate(
+                                        `/components/ModalRemoveItem/article/${id}`,
+                                    )
+                                }
                                 title="Delete"
                                 color={colors.mainColor}
                             />
@@ -64,11 +62,6 @@ export default function ListItemUsers(props: ListItemProps) {
                     )}
                 </Link>
             </View>
-            <ModalRemoveItem
-                id={id}
-                onDeleteSuccess={() => handleDeleteSuccess(id)}
-                type="user"
-            />
         </View>
     );
 }

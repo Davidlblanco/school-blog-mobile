@@ -75,9 +75,7 @@ export default function ListUsers() {
                 <SafeAreaView style={styles.list}>
                     <FlatList
                         data={data}
-                        renderItem={({ item }) => (
-                            <ListItemUsers user={item} setData={setData} />
-                        )}
+                        renderItem={({ item }) => <ListItemUsers user={item} />}
                         keyExtractor={(item) => item.id}
                     />
                 </SafeAreaView>
