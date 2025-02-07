@@ -1,50 +1,109 @@
-# Welcome to your Expo app 👋
+# School Blog Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este repositório é parte de um projeto de pós-graduação da FIAP. O **School Blog** é uma plataforma onde professores interagem com alunos por meio de postagens em um blog. Esta é a versão mobile da aplicação.
 
-## Get started
+## ⚡ 1. Executando o Projeto
 
-1. Install dependencies
+1. Abrir o emulador Android Studio (Pixel 4 XL, Android 14.0 arm64-v8a).
+2. No terminal, rodar o seguinte comando:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    npm start
+    ```
 
-2. Start the app
+3. Para rodar no Android aberto:
 
-   ```bash
-    npx expo start
-   ```
+    ```bash
+    npm run android
+    ```
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📚 2. Fluxos da Aplicação
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+![Fluxo do Deploy](./fluxo-blog-mobile.png)
 
-## Get a fresh project
+-   **Autenticação:**  
+    Ao entrar na aplicação, é verificado se existe um cookie chamado `school-blog-jwt`. Este cookie contém o JWT que autoriza as requisições ao backend.
 
-When you're ready, run:
+    -   Se o JWT for do tipo `ADMIN`, o usuário terá acesso total.
+    -   Usuários com as roles `TEACHER` ou `STUDENT` terão acesso apenas aos componentes específicos de suas permissões.
 
-```bash
-npm run reset-project
+-   **Segurança:**  
+    Mesmo que alguém tente burlar o frontend, todas as requisições ao backend exigem um JWT válido, garantindo que apenas informações autorizadas sejam acessadas.
+
+---
+
+## 🛠️ 3. Estrutura de Componentes
+
+### Componentes Principais
+
+```plaintext
+app/
+├── index.tsx
+├── _layout.tsx
+├── isLoggedIn.tsx
+├── (tabs)/
+│   ├── _layout.tsx
+│   ├── List.tsx
+│   ├── MyAccount.tsx
+│   ├── UserList.tsx
+├── components/
+├── contexts/
+├── utils/
+├── assets/
+└── typings/
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🔑 4. Regras de Acesso
 
-To learn more about developing your project with Expo, look at the following resources:
+### **1. ADMIN**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Permissão total, incluindo gerenciamento de usuários e artigos.
 
-## Join the community
+-   **`./components/CreateUser`**  
+    Cria e atualiza usuários.  
+    **Rota:** `./components/admin/CreateUser/[id]`.
 
-Join our community of developers creating universal apps.
+-   **`./components/ListUsers`**  
+    Lista usuários do sistema.  
+    **Rota:** `/admin/ListUsers`.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### **2. ADMIN e TEACHER**
+
+Permissão para gerenciar e visualizar artigos.
+
+-   **`./components/List`**  
+    Lista artigos com opções de editar e remover.  
+    **Rota:** `./components/List`.
+
+-   **`./components/CreateUpdate`**  
+    Formulário para criar ou atualizar artigos.  
+    **Rotas:** `./components/createUpdate/[id]`.
+
+### **3. STUDENT, ADMIN e TEACHER**
+
+Acesso limitado à visualização de artigos e gerenciamento de conta.
+
+-   **`./components/List`**  
+    Exibe artigos sem opções de edição/remoção.  
+    **Rota:** `./components/List`.
+
+-   **`./components/ViewArticle`**  
+    Exibe o conteúdo de um artigo.  
+    **Rota:** `./components/ViewArticle/:id`.
+
+-   **`./components/MyAccount`**  
+    Permite que cada usuário atualize seus próprios dados.  
+    **Rota:** `./(tabs)/MyAccount`.
+
+---
+
+## 🔧 5. Ferramentas e Utilitários
+
+-   O repositório conta com ferramentas customizadas e hooks específicos, organizados na pasta `./utils`.
+-   Fontes e imagens estão disponíveis na pasta `./assets`.
+-   Tipos utilizados no projeto estão disponíveis na pasta `./typings`.
