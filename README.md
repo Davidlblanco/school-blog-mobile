@@ -37,8 +37,6 @@ Este repositório é parte de um projeto de pós-graduação da FIAP. O **School
 
 ## 🛠️ 3. Estrutura de Componentes
 
-### Componentes Principais
-
 ```plaintext
 app/
 ├── index.tsx
