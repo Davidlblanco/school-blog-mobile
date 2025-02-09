@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '../Input/Input';
 import { apiUrl, colors } from '../../../utils/variables';
 import { useMainContext } from '../../../contexts/useMainContext';
@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 export default function Login() {
     const { setJwtToken } = useMainContext();
@@ -19,6 +19,10 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
     const router = useRouter();
+    const navigation = useNavigation();
+    useEffect(() => {
+        navigation.setOptions({ headerShown: false });
+    }, [navigation]);
     const handleSubmit = async (e: GestureResponderEvent) => {
         try {
             setErrorMessage(undefined);

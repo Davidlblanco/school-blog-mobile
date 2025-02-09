@@ -65,7 +65,7 @@ export default function Input(props: InputProps) {
                 />
             ) : (
                 <TextInput
-                    multiline={true}
+                    multiline={type !== 'password'}
                     numberOfLines={200}
                     style={{ ...styles.input, ...customStyles?.input }}
                     placeholder={placeHolder}
