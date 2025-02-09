@@ -7,13 +7,8 @@ import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 export default function ModalRemoveItem() {
     const { id, type } =
         useLocalSearchParams<'/components/ModalRemoveItem/[type]/[id]'>();
-    const {
-        openModalId,
-        setOpenModalId,
-        jwtToken,
-        setContextSuccess,
-        setContextError,
-    } = useMainContext();
+    const { setOpenModalId, jwtToken, setContextSuccess, setContextError } =
+        useMainContext();
     const navigation = useNavigation();
     navigation.setOptions({ headerShown: false });
 

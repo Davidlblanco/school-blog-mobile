@@ -19,7 +19,7 @@ export default function ListItem(props: ListItemProps) {
         creator: { name: creatorName },
     } = props.article;
     const { role } = useMainContext();
-    const canUpdate = role === 'ADMIN' || role === 'TECHER';
+    const canUpdate = role === 'ADMIN' || role === 'TEACHER';
     const router = useRouter();
 
     if (!canUpdate && !active) return null;

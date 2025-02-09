@@ -48,7 +48,7 @@ export default function List() {
     }, [contextError, contextSuccess]);
     const debounceSearch = UseDebounce(() => getArticles(), 1000);
     useEffect(debounceSearch, [search]);
-    const canCreate = role === 'ADMIN' || role === 'TECHER';
+    const canCreate = role === 'ADMIN' || role === 'TEACHER';
     return (
         <>
             <SafeAreaProvider style={listStyles.container}>
